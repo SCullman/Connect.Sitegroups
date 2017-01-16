@@ -1,0 +1,51 @@
+<dotnetnuke type="Package" version="5.0">
+    <packages>
+        <package name="DnnConnect.PersonaBar.SiteGroups" type="PersonaBar" version="01.00.00">
+            <friendlyName>DnnConnect.PersonaBar.SiteGroups</friendlyName>
+            <description></description>
+            <iconFile>~/DesktopModules/admin/Dnn.PersonaBar/images/module_icon_32x32.png</iconFile>
+            <owner>
+                <name>Stefan Cullmann</name>
+                <organization>DNN Connect</organization>
+                <url>http://www.dnn-connect.org</url>
+                <email>stefan.cullmann@gmail.com</email>
+            </owner>
+            <license src="License.txt"></license>
+            <releaseNotes src="ReleaseNotes.txt"></releaseNotes>
+            <dependencies>
+                <dependency type="CoreVersion">08.00.00</dependency>
+                <dependency type="ManagedPackage" version="01.00.00">Dnn.PersonaBar.UI</dependency>
+            </dependencies>
+            <azureCompatible>true</azureCompatible>
+            <components>
+                <component type="ResourceFile">
+                    <resourceFiles>
+                        <basePath>DesktopModules/admin/Dnn.PersonaBar/Modules/SiteGroups</basePath>
+                        <resourceFile>
+                            <name>Resources.zip</name>
+                        </resourceFile>
+                    </resourceFiles>
+                </component>
+                <component type="Assembly">
+                    <assemblies>
+                        <assembly>
+                            <name>DnnConnect.PersonaBar.SiteGroups.dll</name>
+                            <path>bin</path>
+                        </assembly>
+                    </assemblies>
+                </component>
+                <component type="PersonaBarMenu">
+                    <menu>
+                        <identifier>SiteGroups</identifier>
+                        <moduleName>SiteGroups</moduleName>
+                        <resourceKey>nav_SiteGroups</resourceKey>
+                        <path>SiteGroups</path>
+                        <mobileSupport>true</mobileSupport>
+                        <parent>Settings</parent>
+                        <order>2</order>
+                    </menu>
+                </component>
+            </components>
+        </package>
+    </packages>
+</dotnetnuke>
