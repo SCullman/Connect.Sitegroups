@@ -20,8 +20,6 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,11 +57,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="DotNetNuke.Web, Version=9.0.1.142, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\DotNetNuke.WebApi.9.0.1.142\lib\net40\DotNetNuke.Web.dll</HintPath>
+      <HintPath>packages\DotNetNuke.Web.9.0.1.142\lib\net40\DotNetNuke.Web.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DotNetNuke.Web.Client, Version=9.0.1.142, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\DotNetNuke.Web.Client.9.0.1.142\lib\net40\DotNetNuke.Web.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DotNetNuke.WebUtility, Version=4.2.1.783, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\DotNetNuke.Web.9.0.1.142\lib\net40\DotNetNuke.WebUtility.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -71,8 +73,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -110,17 +112,13 @@
     <Compile Include="Services\SiteGroupsController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="admin\personaBar\css\SiteGroups.css" />
-    <Content Include="admin\personaBar\SiteGroups.html" />
-    <Content Include="admin\personaBar\scripts\SiteGroups.js" />
-    <Content Include="License.txt" />
-    <Content Include="ReleaseNotes.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Module.build" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Dnn.PersonaBar.SiteGroups.dnn" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="admin\personaBar\css\SiteGroups.css" />
+    <Content Include="admin\personaBar\scripts\SiteGroups.js" />
+    <Content Include="admin\personaBar\SiteGroups.html" />
+    <Content Include="Module.build" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Solution.build" />
@@ -135,12 +133,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="web.config" />
-    <None Include="web.Debug.config">
-      <DependentUpon>web.config</DependentUpon>
-    </None>
-    <None Include="web.Release.config">
-      <DependentUpon>web.config</DependentUpon>
-    </None>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
@@ -154,11 +146,9 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="Module.build" />
-  <Import Project="packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  <Import Project="packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
 </Project>

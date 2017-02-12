@@ -1,11 +1,12 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using DotNetNuke.Web.Api;
 using DnnConnect.PersonaBar.SiteGroups.Components;
 using DnnConnect.PersonaBar.SiteGroups.DTOs;
 using Dnn.PersonaBar.Library;
-using System;
+
 using Dnn.PersonaBar.Library.Attributes;
 
 namespace DnnConnect.PersonaBar.SiteGroups.Services
