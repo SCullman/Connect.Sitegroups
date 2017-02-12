@@ -2,7 +2,8 @@
 define(['jquery'],
     function ($) {
         function loadScript() {
-            var url = "Modules/SiteGroups/scripts/bundles/sitegroups-bundle.js";
+            var url = "http://localhost:8080/dist/sitegroups-bundle.js"
+            //var url = "Modules/SiteGroups/scripts/bundles/sitegroups-bundle.js";
             $.ajax({
                 dataType: "script",
                 cache: true,

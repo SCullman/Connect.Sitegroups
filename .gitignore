@@ -1,2 +1,6 @@
 .vs/config/applicationhost.config
 obj/
+SiteGroups.Web/node_modules/
+bin/
+Website/
+admin/personaBar/scripts/bundles/

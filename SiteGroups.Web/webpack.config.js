@@ -6,7 +6,7 @@ const isProduction = process.env.NODE_ENV === "production";
 const webpackExternals = require("dnn-webpack-externals");
 
 module.exports = {
-    entry: "./src/main.jsx",
+entry: ["./src/main.jsx"],
     output: {
         path: "../admin/personaBar/scripts/bundles/",
         filename: "sitegroups-bundle.js",
@@ -36,7 +36,7 @@ module.exports = {
 	externals: webpackExternals,
 
     plugins: isProduction ? [
-        new webpack.optimize.UglifyJsPlugin(),
+       new webpack.optimize.UglifyJsPlugin(),
         new webpack.optimize.DedupePlugin(),
         new webpack.DefinePlugin({
             VERSION: JSON.stringify(packageJson.version),

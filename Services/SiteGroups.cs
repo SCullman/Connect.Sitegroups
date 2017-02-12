@@ -3,7 +3,7 @@ using DnnConnect.PersonaBar.SiteGroups.Components;
 
 namespace DnnConnect.PersonaBar.SiteGroups.Services
 {
-    public class PortalGroups : ServiceLocator<IManagePortalGroups, PortalGroups>
+    public class SiteGroups : ServiceLocator<IManagePortalGroups, SiteGroups>
     {
         protected override System.Func<IManagePortalGroups> GetFactory()
         {

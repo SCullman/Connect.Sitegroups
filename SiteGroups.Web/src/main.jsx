@@ -1,9 +1,9 @@
-﻿import React from 'react';
+﻿import React from "react";
 import { render } from "react-dom";
 
-import SiteGroupApp from './components/App';
+import SiteGroupApp from "./components/App";
 
-const  PortalGroups = [
+/*const  PortalGroups = [
   {
     PortalGroupId: 1, AuthenticationDomain: 'portal1',
     MasterPortal: {
@@ -44,10 +44,11 @@ const AvailablePortals = [{
       PortalName:'Portal9', 
       PortalId:9
     }];
- 
-const appContainer = document.getElementById("siteGroups-container");
+*/ 
+const appContainer = document.getElementById("sitegroups-container");
 
 render(
-  <SiteGroupApp  />,
+  <SiteGroupApp/>
+  ,
   appContainer
 );

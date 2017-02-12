@@ -1,25 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
 
 export default class Sites extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       currentSite: null,
-      availableSite: null
-    }
+      availableSite: null,
+    };
   }
-  addSite(){
+
+  addSite() {
     this.props.onAddSite(this.state.availableSite);
     this.setState({availableSite:null});
   }
+
   render() {
     return (
       <div>
         <div>
           <label>Sites</label>
           <select
-            multiple="multiple" style={{minWidth:200+'px'}}
+            multiple="multiple" style={{minWidth:200 + "px"}}
             onChange={(e) => this.setState({currentSite: e.target.value})}>
             {this.props.currentSites.map((site) => 
               <option
@@ -32,7 +33,7 @@ export default class Sites extends React.Component {
             onClick={() => this.props.onRemoveSite(this.state.currentSite)}>Remove</button>
         </div>
         <div>
-          <select style={{minWidth:200+'px'}}
+          <select style={{minWidth:200 + "px"}}
           onChange={(e) => this.setState({availableSite: e.target.value})}>
             <option value="">Choose a site</option>
             {this.props.availableSites.map((site) => 
@@ -49,3 +50,10 @@ export default class Sites extends React.Component {
     );
   }
 }
+
+Sites.propTypes= { 
+  availableSites: React.PropTypes.array,
+  currentSites: React.PropTypes.array,
+  onRemoveSite: React.PropTypes.func,
+  onAddSite: React.PropTypes.func,
+};

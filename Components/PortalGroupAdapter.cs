@@ -9,48 +9,48 @@ using PortalInfo = DnnConnect.PersonaBar.SiteGroups.DTOs.PortalInfo;
 
 namespace DnnConnect.PersonaBar.SiteGroups.Components
 {
-    public class PortalGroupAdapter
+    public class PortalGroupAdapter : IManagePortalGroups
     {
         IPortalGroupController PortalGroupController
         {
             get { return DotNetNuke.Entities.Portals.PortalGroupController.Instance; }
         }
 
-        public  IEnumerable<PortalGroupInfo>  GetPortalGroups()
+        public IEnumerable<PortalGroupInfo> SiteGroups()
         {
             return PortalGroupController.GetPortalGroups().Select(g => new PortalGroupInfo
+            {
+                AuthenticationDomain = g.AuthenticationDomain,
+                PortalGroupId = g.PortalGroupId,
+                MasterPortal = new PortalInfo
                 {
-                    AuthenticationDomain = g.AuthenticationDomain,
-                    PortalGroupId = g.PortalGroupId,
-                    MasterPortal = new PortalInfo
-                        {
-                            PortalName = g.MasterPortalName,
-                            PortalId = g.MasterPortalId
-                        },
-                    PortalGroupName = g.PortalGroupName,
-                    Portals = PortalsOfGroup(g.PortalGroupId,g.MasterPortalId)
+                    PortalName = g.MasterPortalName,
+                    PortalId = g.MasterPortalId
+                },
+                PortalGroupName = g.PortalGroupName,
+                Portals = PortalsOfGroup(g.PortalGroupId, g.MasterPortalId)
                         .Select(p => new PortalInfo
-                            {
-                                PortalId = p.PortalID,
-                                PortalName = p.PortalName
-                            })
+                        {
+                            PortalId = p.PortalID,
+                            PortalName = p.PortalName
+                        })
 
-                });
+            });
         }
-        
-        public  IEnumerable<PortalInfo>  AvailablePortals()
+
+        public IEnumerable<PortalInfo> AvailablePortals()
         {
             return new PortalController().GetPortals()
                         .Cast<DotNetNuke.Entities.Portals.PortalInfo>()
                         .Where(x => x.PortalGroupID == Null.NullInteger)
                         .Select(p => new PortalInfo
-                            {
-                                PortalId = p.PortalID,
-                                PortalName = p.PortalName
-                            });
+                        {
+                            PortalId = p.PortalID,
+                            PortalName = p.PortalName
+                        });
         }
 
-        IEnumerable<PortalInfo> PortalsOfGroup(int groupId, int masterPortalId)
+        IEnumerable<DotNetNuke.Entities.Portals.PortalInfo> PortalsOfGroup(int groupId, int masterPortalId)
         {
             return PortalGroupController
                 .GetPortalsByGroup(groupId)
@@ -77,7 +77,7 @@ namespace DnnConnect.PersonaBar.SiteGroups.Components
             @group.PortalGroupName = portalGroup.PortalGroupName;
             @group.AuthenticationDomain = portalGroup.AuthenticationDomain;
             PortalGroupController.UpdatePortalGroup(@group);
-            var currentPortals = PortalsOfGroup(portalGroup.PortalGroupId,portalGroup.MasterPortal.PortalId).ToList();
+            var currentPortals = PortalsOfGroup(portalGroup.PortalGroupId, portalGroup.MasterPortal.PortalId).ToList();
             foreach (var portal in currentPortals)
             {
                 if (portalGroup.Portals == null || portalGroup.Portals.All(p => p.PortalId != portal.PortalID))
@@ -98,14 +98,14 @@ namespace DnnConnect.PersonaBar.SiteGroups.Components
 
         int AddPortalGroup(PortalGroupInfo portalGroup)
         {
-             UserCopiedCallback callback = delegate { };
+            UserCopiedCallback callback = delegate { };
             var group = new DotNetNuke.Entities.Portals.PortalGroupInfo
-                {
-                    AuthenticationDomain = portalGroup.AuthenticationDomain,
-                    MasterPortalId = portalGroup.MasterPortal.PortalId,
-                    PortalGroupDescription = portalGroup.PortalGroupName,
-                    PortalGroupName = portalGroup.PortalGroupName
-                };
+            {
+                AuthenticationDomain = portalGroup.AuthenticationDomain,
+                MasterPortalId = portalGroup.MasterPortal.PortalId,
+                PortalGroupDescription = portalGroup.PortalGroupName,
+                PortalGroupName = portalGroup.PortalGroupName
+            };
             PortalGroupController.AddPortalGroup(@group);
             if (portalGroup.Portals != null)
             {

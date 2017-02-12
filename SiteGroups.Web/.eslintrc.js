@@ -35,10 +35,11 @@ module.exports = {
             ]
         }
       ],      
+      "comma-dangle": ["warn", "only-multiline"],
       "semi": "error",
       "no-var": "error",
       "quotes": ["warn", "double" ],
-      "indent": ["warn", 4, {"SwitchCase": 1}],
+      "indent": ["warn", 2, {"SwitchCase": 1}],
       "no-unused-vars": "warn",
       "no-console": "warn",      
       "keyword-spacing": "warn", 

@@ -1,6 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-
+import React from "react";
 
 const SiteGroupRow = (props) => ( 
     <tr >
@@ -12,6 +10,9 @@ const SiteGroupRow = (props) => (
       <td>{props.group.MasterPortal.PortalName}</td>
     </tr>);
 
+SiteGroupRow.propTypes= { 
+  group: React.PropTypes.object,
+};
 
 const SiteGroupsTable = (props) => (
       <table>
@@ -24,7 +25,7 @@ const SiteGroupsTable = (props) => (
         </thead>
       <tbody>
       {
-        props.groups.map((group)=> 
+        (props.groups||[]).map((group)=> 
           <SiteGroupRow 
             key={group.PortalGroupId.toString()} 
             group={group} 
@@ -35,20 +36,26 @@ const SiteGroupsTable = (props) => (
     </table>
 );
 
-class NewSiteGroup extends React.Component{
+SiteGroupsTable.propTypes= { 
+  groups: React.PropTypes.array,
+  onEditGroup: React.PropTypes.func,
+  onDeleteGroup: React.PropTypes.func,
+};
+
+class NewSiteGroup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       siteId:null
     };
   }
-  render(){
-    return(
+  render() {
+    return (
       <div>
         <select name="sites" onChange={(e) => this.setState({siteId: e.target.value})}>
         <option>Choose a site</option>
         {
-          this.props.sites.map((site)=>
+          (this.props.sites||[]).map((site)=>
           <option key={site.PortalId.toString()} value={site.PortalId}>{site.PortalName}</option>)
         }
         </select>
@@ -60,9 +67,14 @@ class NewSiteGroup extends React.Component{
   }
 }
 
-export default class SiteGroups extends React.Component{
+NewSiteGroup.propTypes= { 
+  sites: React.PropTypes.array,
+  onNewGroup: React.PropTypes.func,
+};
+
+export default class SiteGroups extends React.Component {
   render() {
-    return(
+    return (
       <div>
         <SiteGroupsTable 
           groups={this.props.groups}
@@ -73,6 +85,15 @@ export default class SiteGroups extends React.Component{
           onNewGroup={(siteId) => this.props.onNewGroup(siteId)}
           />
       </div>
-    ) 
+    ); 
   }
 }
+
+SiteGroups.propTypes= { 
+  groups: React.PropTypes.array,
+  sites: React.PropTypes.array,
+  onEditGroup: React.PropTypes.func,
+  onDeleteGroup: React.PropTypes.func,
+  onNewGroup: React.PropTypes.func,
+};
+
