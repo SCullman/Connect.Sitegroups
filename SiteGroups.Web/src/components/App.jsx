@@ -33,7 +33,7 @@ export default class SiteGroupApp extends React.Component {
   }
 
   editNewGroup(id) {
-    const site = this.props.sites.find((s) => s.PortalId === id);
+    const site = this.state.availableSites.find((s) => s.PortalId === id);
     this.setState({
       currentGroup: {
         PortalGroupId: -1,
@@ -52,8 +52,8 @@ export default class SiteGroupApp extends React.Component {
 
     service
       .saveSiteGroup(group)
-      .then(data => {
-        if (isNewGroup) group.PortalGroupId = data.id;
+      .then(id => {
+        if (isNewGroup) group.PortalGroupId = id;
         const groups = (isNewGroup
           ? this.state.groups
           : this.state.groups.filter((g) => g.PortalGroupId !== group.PortalGroupId))
@@ -70,13 +70,17 @@ export default class SiteGroupApp extends React.Component {
 
 
   deleteGroup(group) {
-    this.setState({
-      availableSites: this.state.availableSites
-        .concat(group.Portals)
-        .concat([group.MasterPortal])
-        .sort((a, b) => a.PortalName < b.PortalName ? -1 : 1),
-      groups: this.state.groups.filter((g) => g.PortalGroupId !== group.PortalGroupId)
-    });
+    service
+      .deleteSiteGroup(group.PortalGroupId)
+      .then(() => {
+        this.setState({
+          availableSites: this.state.availableSites
+            .concat(group.Portals)
+            .concat([group.MasterPortal])
+            .sort((a, b) => a.PortalName < b.PortalName ? -1 : 1),
+          groups: this.state.groups.filter((g) => g.PortalGroupId !== group.PortalGroupId),
+        });
+      });
   }
 
   render() {
@@ -92,12 +96,9 @@ export default class SiteGroupApp extends React.Component {
             groups={this.state.groups}
             sites={this.state.availableSites}
             onEditGroup={(group) => this.setState({ currentGroup: group })}
-            onNewGroup={(siteId) => this.editNewGroup(siteId)}
+            onNewGroup={(siteId) => this.editNewGroup(Number(siteId))}
             onDeleteGroup={(group) => this.deleteGroup(group)} />
         ));
   }
 }
 
-SiteGroupApp.propTypes= { 
-  sites: React.PropTypes.array, 
-}; 

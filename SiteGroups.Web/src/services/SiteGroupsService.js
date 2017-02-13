@@ -19,11 +19,11 @@ class SiteGroupsService {
   }
   saveSiteGroup(siteGroup) {
     const sf = this.getServiceFramework();
-    return sf.post("SaveSiteGroup", siteGroup);
+    return sf.post("Save", siteGroup);
   }
   deleteSiteGroup(siteGroupId) {
     const sf = this.getServiceFramework();
-    return sf.post("DeleteSiteGroup?groupId=" + siteGroupId, {});
+    return sf.post("Delete?groupId=" + siteGroupId, {});
   }
 }
 const siteGroupsService = new SiteGroupsService();

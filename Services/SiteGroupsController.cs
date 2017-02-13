@@ -51,14 +51,14 @@ namespace DnnConnect.PersonaBar.SiteGroups.Services
             }
         }
         
-        [HttpGet] 
+        [HttpPost] 
         [ValidateAntiForgeryToken]
-        public HttpResponseMessage Delete(int portalGroupId)
+        public HttpResponseMessage Delete(int groupId)
         {
             try
             {
-                GroupManager.Delete(portalGroupId);
-                return Request.CreateResponse(HttpStatusCode.OK);
+                GroupManager.Delete(groupId);
+                return Request.CreateResponse(HttpStatusCode.OK, groupId);
             }
             catch (Exception ex)
             {

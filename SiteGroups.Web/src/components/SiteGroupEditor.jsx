@@ -78,8 +78,8 @@ export default class SiteGroupEditor extends React.Component {
         <Sites
           availableSites={this.state.AvailableSites}
           currentSites={this.state.Portals}
-          onAddSite={(id) => { this.addSite(id); }}
-          onRemoveSite={(id) => { this.removeSite(id); }}/>
+          onAddSite={(id) => { this.addSite(Number(id)); }}
+          onRemoveSite={(id) => { this.removeSite(Number(id)); }}/>
         <div >
           <button onClick={() => this.props.onSave(this.result(), this.state.AvailableSites)}>Save</button>
           <button onClick={() => this.props.onCancelEdit()}>Cancel</button>
