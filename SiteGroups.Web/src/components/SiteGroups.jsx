@@ -1,10 +1,12 @@
 import React from "react";
+import Resx from "localization";
+
 
 const SiteGroupRow = (props) => ( 
     <tr >
       <td>
-        <button onClick={() => props.onEditGroup(props.group)}>Edit</button>
-        <button onClick={() => props.onDeleteGroup(props.group)}>Delete</button>
+        <button onClick={() => props.onEditGroup(props.group)}>{Resx.get("Edit.Button")}</button>
+        <button onClick={() => props.onDeleteGroup(props.group)}>{Resx.get("Delete.Button")}</button>
       </td>
       <td>{props.group.PortalGroupName}</td>
       <td>{props.group.MasterPortal.PortalName}</td>
@@ -19,8 +21,8 @@ const SiteGroupsTable = (props) => (
         <thead>
           <tr>
             <th></th>
-            <th>Site Group</th>
-            <th>Master Site</th>
+            <th>{Resx.get("SiteGroup.Label")}</th>
+            <th>{Resx.get("MasterSite.Label")}</th>
           </tr>
         </thead>
       <tbody>
@@ -53,7 +55,7 @@ class NewSiteGroup extends React.Component {
     return (
       <div>
         <select name="sites" onChange={(e) => this.setState({siteId: e.target.value})}>
-        <option>Choose a site</option>
+        <option>{Resx.get("ChooseASite.Label")}</option>
         {
           (this.props.sites||[]).map((site)=>
           <option key={site.PortalId.toString()} value={site.PortalId}>{site.PortalName}</option>)
@@ -61,7 +63,7 @@ class NewSiteGroup extends React.Component {
         </select>
         <button
           disabled={!this.state.siteId}
-          onClick={()=>this.props.onNewGroup(this.state.siteId)}>New Site Group</button>
+          onClick={()=>this.props.onNewGroup(this.state.siteId)}>{Resx.get("NewSiteGroup.Button")}</button>
       </div>
     );
   }

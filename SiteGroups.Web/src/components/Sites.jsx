@@ -1,4 +1,5 @@
 import React from "react";
+import Resx from "localization";
 
 export default class Sites extends React.Component {
   constructor(props) {
@@ -18,7 +19,7 @@ export default class Sites extends React.Component {
     return (
       <div>
         <div>
-          <label>Sites</label>
+          <label>{Resx.get("Sites.Label")}</label>
           <select
             multiple="multiple" style={{minWidth:200 + "px"}}
             onChange={(e) => this.setState({currentSite: e.target.value})}>
@@ -35,7 +36,7 @@ export default class Sites extends React.Component {
         <div>
           <select style={{minWidth:200 + "px"}}
           onChange={(e) => this.setState({availableSite: e.target.value})}>
-            <option value="">Choose a site</option>
+            <option value="">{Resx.get("ChooseASite.Label")}</option>
             {this.props.availableSites.map((site) => 
               <option
                 value={site.PortalId}
@@ -44,7 +45,7 @@ export default class Sites extends React.Component {
           </select>
           <button
             disabled={!this.state.availableSite}
-            onClick={() => this.addSite()}>Add</button>
+            onClick={() => this.addSite()}>{Resx.get("Add.Button")}</button>
         </div>
       </div>
     );

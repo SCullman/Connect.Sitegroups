@@ -1,5 +1,6 @@
 import React from "react";
 import Sites from "./Sites";
+import Resx from "localization";
 
 export default class SiteGroupEditor extends React.Component {
   constructor(props) {
@@ -49,7 +50,7 @@ export default class SiteGroupEditor extends React.Component {
     return (
       <div >
         <div >
-          <label htmlFor="MasterPortal">Master Portal</label>
+          <label htmlFor="MasterPortal">{Resx.get("MasterPortal.Label")} </label>
           <input
             id="MasterPortal"
             type="text"
@@ -58,7 +59,7 @@ export default class SiteGroupEditor extends React.Component {
             readOnly/>
         </div>
         <div>
-          <label htmlFor="PortalGroupName">Group Name</label>
+          <label htmlFor="PortalGroupName">{Resx.get("GroupName.Label")}</label>
           <input
             id="PortalGroupName"
             type="text"
@@ -67,7 +68,7 @@ export default class SiteGroupEditor extends React.Component {
           *
         </div>
         <div>
-          <label htmlFor="AuthenticationDomain">Authentication Domain</label>
+          <label htmlFor="AuthenticationDomain">{Resx.get("AuthenticationDomain.Label")}</label>
           <input
             id="AuthenticationDomain"
             type="text"
@@ -81,8 +82,8 @@ export default class SiteGroupEditor extends React.Component {
           onAddSite={(id) => { this.addSite(Number(id)); }}
           onRemoveSite={(id) => { this.removeSite(Number(id)); }}/>
         <div >
-          <button onClick={() => this.props.onSave(this.result(), this.state.AvailableSites)}>Save</button>
-          <button onClick={() => this.props.onCancelEdit()}>Cancel</button>
+          <button onClick={() => this.props.onSave(this.result(), this.state.AvailableSites)}>{Resx.get("Save.Button")}</button>
+          <button onClick={() => this.props.onCancelEdit()}>{Resx.get("Cancel.Button")}</button>
         </div>
       </div>
     );
