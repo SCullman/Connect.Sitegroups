@@ -1,5 +1,7 @@
 import React from "react";
 import Resx from "localization";
+import Button from "dnn-button";
+
 
 export default class Sites extends React.Component {
   constructor(props) {
@@ -43,9 +45,9 @@ export default class Sites extends React.Component {
                 key={site.PortalId.toString()}>{site.PortalName}</option>)
 }
           </select>
-          <button
+          <Button 
             disabled={!this.state.availableSite}
-            onClick={() => this.addSite()}>{Resx.get("Add.Button")}</button>
+            onClick={() => this.addSite()}>{Resx.get("Add.Button")}</Button>
         </div>
       </div>
     );

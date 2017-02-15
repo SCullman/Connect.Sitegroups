@@ -1,8 +1,6 @@
 import React from "react";
-//import ReactDOM from "react-dom";
-
-import SiteGroups from "./SiteGroups";
-import SiteGroupEditor from "./SiteGroupEditor";
+import SiteGroupEditor from "./Editor";
+import SiteGroups from "./Groups";
 import service from "../services/SiteGroupsService";
 
 export default class SiteGroupApp extends React.Component {

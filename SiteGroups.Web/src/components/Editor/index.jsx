@@ -1,6 +1,6 @@
 import React from "react";
 import Sites from "./Sites";
-import Resx from "localization";
+import Resx from "../../localization";
 
 export default class SiteGroupEditor extends React.Component {
   constructor(props) {
