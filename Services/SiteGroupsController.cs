@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using DotNetNuke.Web.Api;
+using DotNetNuke.Instrumentation;
 using DnnConnect.PersonaBar.SiteGroups.Components;
 using DnnConnect.PersonaBar.SiteGroups.DTOs;
 using Dnn.PersonaBar.Library;
@@ -14,7 +15,7 @@ namespace DnnConnect.PersonaBar.SiteGroups.Services
     [MenuPermission(Scope = ServiceScope.Host)]
     public class SiteGroupsController : PersonaBarApiController
     {
-        //private static readonly ILog Logger = LoggerSource.Instance.GetLogger(typeof (SiteGroupsController));
+        private static readonly ILog Logger = LoggerSource.Instance.GetLogger(typeof (SiteGroupsController));
 
         IManagePortalGroups GroupManager {get
         {
@@ -46,7 +47,7 @@ namespace DnnConnect.PersonaBar.SiteGroups.Services
             }
             catch (Exception ex)
             {
-          //      Logger.Error(ex);
+                Logger.Error(ex);
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
@@ -62,7 +63,7 @@ namespace DnnConnect.PersonaBar.SiteGroups.Services
             }
             catch (Exception ex)
             {
-            //    Logger.Error(ex);
+                Logger.Error(ex);
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }  
         }
