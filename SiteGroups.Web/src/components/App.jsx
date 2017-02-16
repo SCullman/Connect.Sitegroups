@@ -22,7 +22,6 @@ export default class SiteGroupApp extends React.Component {
       service.getSiteGroups(), 
       service.getAvailablePortals(),
     ]).then(data => {
-      console.log(data);
       this.setState({
         groups: data[0],
         availableSites: data[1],

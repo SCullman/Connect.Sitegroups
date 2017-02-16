@@ -29,7 +29,7 @@ const SiteGroupRow = (props) => (
 );
 
 SiteGroupRow.propTypes = {
-    group: React.PropTypes.object,
+  group: React.PropTypes.object,
 };
 
 export default SiteGroupRow;
