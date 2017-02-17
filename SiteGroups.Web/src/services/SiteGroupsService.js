@@ -13,15 +13,15 @@ class SiteGroupsService {
     const sf = this.getServiceFramework();
     return sf.get("GetSiteGroups" , {});
   }
-  getAvailablePortals( ) {
+  getUnassignedSites( ) {
     const sf = this.getServiceFramework();
     return sf.get("GetAvailablePortals" , {});
   }
-  saveSiteGroup(siteGroup) {
+  save(siteGroup) {
     const sf = this.getServiceFramework();
     return sf.post("Save", siteGroup);
   }
-  deleteSiteGroup(siteGroupId) {
+  delete(siteGroupId) {
     const sf = this.getServiceFramework();
     return sf.post("Delete?groupId=" + siteGroupId, {});
   }

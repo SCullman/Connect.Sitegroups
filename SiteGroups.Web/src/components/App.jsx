@@ -8,8 +8,8 @@ export default class SiteGroupApp extends React.Component {
     super(props);
     this.state = {
       groups: [],
-      currentGroup:  null,
-      availableSites: [],
+      currentGroup: null,
+      unassignedSites: [],
     };
   }
 
@@ -18,19 +18,16 @@ export default class SiteGroupApp extends React.Component {
   }
 
   loadState() {
-    Promise.all([
-      service.getSiteGroups(), 
-      service.getAvailablePortals(),
-    ]).then(data => {
-      this.setState({
-        groups: data[0],
-        availableSites: data[1],
-      });
-    });
+    service
+      .getSiteGroups()
+      .then(groups => this.setState({ groups }));
+    service
+      .getUnassignedSites()
+      .then(unassignedSites => this.setState({ unassignedSites}));
   }
 
   editNewGroup(id) {
-    const site = this.state.availableSites.find((s) => s.PortalId === id);
+    const site = this.state.unassignedSites.find((s) => s.PortalId === id);
     this.setState({
       currentGroup: {
         PortalGroupId: -1,
@@ -44,11 +41,11 @@ export default class SiteGroupApp extends React.Component {
 
   saveGroup(r) {
     const group = r.PortalGroup;
-    const availableSites = r.AvailableSites;
+    const unassignedSites = r.unassignedSites;
     const isNewGroup = group.PortalGroupId === -1;
 
     service
-      .saveSiteGroup(group)
+      .save(group)
       .then(id => {
         if (isNewGroup) group.PortalGroupId = id;
         const groups = (isNewGroup
@@ -58,7 +55,7 @@ export default class SiteGroupApp extends React.Component {
           .sort((a, b) => a.PortalGroupName < b.PortalGroupName ? -1 : 1);
 
         this.setState({
-          availableSites,
+          unassignedSites,
           currentGroup: null,
           groups
         });
@@ -68,10 +65,10 @@ export default class SiteGroupApp extends React.Component {
 
   deleteGroup(group) {
     service
-      .deleteSiteGroup(group.PortalGroupId)
+      .delete(group.PortalGroupId)
       .then(() => {
         this.setState({
-          availableSites: this.state.availableSites
+          unassignedSites: this.state.unassignedSites
             .concat(group.Portals)
             .concat([group.MasterPortal])
             .sort((a, b) => a.PortalName < b.PortalName ? -1 : 1),
@@ -85,13 +82,13 @@ export default class SiteGroupApp extends React.Component {
       this.state.currentGroup ?
         (<SiteGroupEditor
           group={this.state.currentGroup}
-          sites={this.state.availableSites.filter((site) => site.PortalId !== this.state.currentGroup.MasterPortal.PortalId)}
+          sites={this.state.unassignedSites.filter((site) => site.PortalId !== this.state.currentGroup.MasterPortal.PortalId)}
           onCancelEdit={() => this.setState({ currentGroup: null })}
           onSave={(r) => this.saveGroup(r)} />
         ) : (
           <SiteGroups
             groups={this.state.groups}
-            sites={this.state.availableSites}
+            sites={this.state.unassignedSites}
             onEditGroup={(group) => this.setState({ currentGroup: group })}
             onNewGroup={(siteId) => this.editNewGroup(Number(siteId))}
             onDeleteGroup={(group) => this.deleteGroup(group)} />
