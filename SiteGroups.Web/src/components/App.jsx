@@ -2,6 +2,8 @@ import React from "react";
 import SiteGroupEditor from "./Editor";
 import SiteGroups from "./Groups";
 import service from "../services/SiteGroupsService";
+import utils from "../utils";
+import Resx from "../localization";
 
 export default class SiteGroupApp extends React.Component {
   constructor(props) {
@@ -20,10 +22,10 @@ export default class SiteGroupApp extends React.Component {
   loadState() {
     service
       .getSiteGroups()
-      .then(groups => this.setState({ groups }));
+      .then(groups => this.setState({ groups: groups }));
     service
       .getUnassignedSites()
-      .then(unassignedSites => this.setState({ unassignedSites}));
+      .then(sites => this.setState({ unassignedSites:sites}));
   }
 
   editNewGroup(id) {
@@ -61,20 +63,21 @@ export default class SiteGroupApp extends React.Component {
         });
       });
   }
-
-
+  
   deleteGroup(group) {
-    service
-      .delete(group.PortalGroupId)
-      .then(() => {
-        this.setState({
-          unassignedSites: this.state.unassignedSites
-            .concat(group.Portals)
-            .concat([group.MasterPortal])
-            .sort((a, b) => a.PortalName < b.PortalName ? -1 : 1),
-          groups: this.state.groups.filter((g) => g.PortalGroupId !== group.PortalGroupId),
+    utils.confirm(Resx.get("DeleteGroup.Confirm"),Resx.get("Delete"),Resx.get("Cancel"), ()=> {
+      service
+        .delete(group.PortalGroupId)
+        .then(() => {
+          this.setState({
+            unassignedSites: this.state.unassignedSites
+              .concat(group.Portals)
+              .concat([group.MasterPortal])
+              .sort((a, b) => a.PortalName < b.PortalName ? -1 : 1),
+            groups: this.state.groups.filter((g) => g.PortalGroupId !== group.PortalGroupId),
+          });
         });
-      });
+    });
   }
 
   render() {

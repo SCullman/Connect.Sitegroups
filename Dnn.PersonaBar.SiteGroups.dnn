@@ -41,8 +41,8 @@
                         <resourceKey>nav_SiteGroups</resourceKey>
                         <path>SiteGroups</path>
                         <mobileSupport>true</mobileSupport>
-                        <parent>Settings</parent>
-                        <order>2</order>
+                        <parent>Manage</parent>
+                        <order>45</order>
                     </menu>
                 </component>
             </components>
