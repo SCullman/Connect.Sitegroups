@@ -1,7 +1,6 @@
 import React from "react";
-import Resx from "../../../localization";
+import Resx from "../localization";
 import Button from "dnn-button";
-import "./style.less";
 
 export default class NewSiteGroup extends React.Component {
   constructor(props) {
@@ -13,7 +12,7 @@ export default class NewSiteGroup extends React.Component {
   render() {
     return (
       <div style={{ float: "right" }}>
-        <select
+        <select 
           name="sites"
           style={{
             padding: "12px",
@@ -22,7 +21,7 @@ export default class NewSiteGroup extends React.Component {
           onChange={(e) => this.setState({ siteId: e.target.value === "NoSiteSelected" ? null : e.target.value })}>
           <option value="NoSiteSelected">{Resx.get("ChooseASite.Label")}</option>
           {
-            (this.props.sites || []).map((site) =>
+            (this.props.unassignedSites || []).map((site) =>
               <option key={site.PortalId.toString()} value={site.PortalId}>{site.PortalName}</option>)
           }
         </select>
@@ -37,6 +36,6 @@ export default class NewSiteGroup extends React.Component {
 }
 
 NewSiteGroup.propTypes = {
-  sites: React.PropTypes.array,
+  unassignedSites: React.PropTypes.array,
   onNewGroup: React.PropTypes.func,
 };

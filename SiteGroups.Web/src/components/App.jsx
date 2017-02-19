@@ -1,6 +1,8 @@
 import React from "react";
-import SiteGroupEditor from "./Editor";
-import SiteGroups from "./Groups";
+import NewSiteGroup from "./NewGroup";
+import SiteGroupsTable from "./Table";
+import GridCell from "dnn-grid-cell";
+import PersonaBarPageHeader from "dnn-persona-bar-page-header";
 import service from "../services/SiteGroupsService";
 import utils from "../utils";
 import Resx from "../localization";
@@ -25,7 +27,7 @@ export default class SiteGroupApp extends React.Component {
       .then(groups => this.setState({ groups: groups }));
     service
       .getUnassignedSites()
-      .then(sites => this.setState({ unassignedSites:sites}));
+      .then(sites => this.setState({ unassignedSites: sites }));
   }
 
   editNewGroup(id) {
@@ -34,7 +36,7 @@ export default class SiteGroupApp extends React.Component {
       currentGroup: {
         PortalGroupId: -1,
         MasterPortal: site,
-        PortalGroupName: site.PortalName,
+        PortalGroupName: site.PortalName + " " + Resx.get("Group"),
         AuthenticationDomain: "",
         Portals: [],
       },
@@ -43,7 +45,7 @@ export default class SiteGroupApp extends React.Component {
 
   saveGroup(r) {
     const group = r.PortalGroup;
-    const unassignedSites = r.unassignedSites;
+    const unassignedSites = r.UnassignedSites;
     const isNewGroup = group.PortalGroupId === -1;
 
     service
@@ -57,45 +59,50 @@ export default class SiteGroupApp extends React.Component {
           .sort((a, b) => a.PortalGroupName < b.PortalGroupName ? -1 : 1);
 
         this.setState({
-          unassignedSites,
+          unassignedSites:unassignedSites,
           currentGroup: null,
           groups
         });
       });
   }
-  
+
   deleteGroup(group) {
-    utils.confirm(Resx.get("DeleteGroup.Confirm"),Resx.get("Delete"),Resx.get("Cancel"), ()=> {
-      service
-        .delete(group.PortalGroupId)
-        .then(() => {
-          this.setState({
-            unassignedSites: this.state.unassignedSites
-              .concat(group.Portals)
-              .concat([group.MasterPortal])
-              .sort((a, b) => a.PortalName < b.PortalName ? -1 : 1),
-            groups: this.state.groups.filter((g) => g.PortalGroupId !== group.PortalGroupId),
+    utils.confirm(
+      Resx.get("DeleteGroup.Confirm"), Resx.get("Delete"), Resx.get("Cancel"),
+      () => {
+        service
+          .delete(group.PortalGroupId)
+          .then(() => {
+            this.setState({
+              unassignedSites: this.state.unassignedSites
+                .concat(group.Portals)
+                .concat([group.MasterPortal])
+                .sort((a, b) => a.PortalName < b.PortalName ? -1 : 1),
+              groups: this.state.groups.filter((g) => g.PortalGroupId !== group.PortalGroupId),
+            });
           });
-        });
-    });
+      });
   }
 
   render() {
     return (
-      this.state.currentGroup ?
-        (<SiteGroupEditor
-          group={this.state.currentGroup}
-          sites={this.state.unassignedSites.filter((site) => site.PortalId !== this.state.currentGroup.MasterPortal.PortalId)}
-          onCancelEdit={() => this.setState({ currentGroup: null })}
-          onSave={(r) => this.saveGroup(r)} />
-        ) : (
-          <SiteGroups
-            groups={this.state.groups}
-            sites={this.state.unassignedSites}
-            onEditGroup={(group) => this.setState({ currentGroup: group })}
+      <GridCell>
+        <PersonaBarPageHeader title={Resx.get("nav_SiteGroups")}>
+          <NewSiteGroup
+            unassignedSites={this.state.unassignedSites}
             onNewGroup={(siteId) => this.editNewGroup(Number(siteId))}
-            onDeleteGroup={(group) => this.deleteGroup(group)} />
-        ));
+          />
+        </PersonaBarPageHeader>
+        <SiteGroupsTable
+          groups={this.state.groups}
+          unassignedSites={this.state.unassignedSites}
+          currentGroup={this.state.currentGroup}
+          onEditGroup={(group) => this.setState({currentGroup:group})}
+          onCancelEditing={()=>this.setState({currentGroup:null})}
+          onDeleteGroup={(group) => this.deleteGroup(group)} 
+          onSaveGroup={(group) => this.saveGroup(group)}/>
+      </GridCell>
+    );
   }
 }
 

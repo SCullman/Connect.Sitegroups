@@ -1,5 +1,7 @@
 module.exports = [
     "nav",
+    "unassign",
+    "sitegroup",
     "dnn",
     "evoq",
     "eslint",
