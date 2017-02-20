@@ -120,4 +120,75 @@
   <data name="nav_SiteGroups.Text" xml:space="preserve">
     <value>Site Groups</value>
   </data>
+  <data name="Cancel.Button" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Save.Button" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Add.Button" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AuthenticationDomain.Label" xml:space="preserve">
+    <value>Authentication Domain:</value>
+  </data>
+     <data name="AuthenticationDomain.Description" xml:space="preserve">
+    <value>All sites with the same auth.domain share the auth cookie.</value>
+  </data>
+  <data name="AuthenticationDomain.Required" xml:space="preserve">
+    <value>An authentication domain is required</value>
+  </data>
+    <data name="EditModule_Unassigned.Label" xml:space="preserve">
+    <value>Unassigned</value>
+  </data>
+    <data name="EditModule_Assigned.Label" xml:space="preserve">
+    <value>Assigned</value>
+  </data>
+  <data name="GroupName.Header" xml:space="preserve">
+    <value>Group Name</value>
+  </data>
+   <data name="GroupName.Label" xml:space="preserve">
+    <value>Group Name:</value>
+  </data>
+   <data name="GroupName.Description" xml:space="preserve">
+    <value>The name helps to identifier the group.</value>
+  </data>
+  <data name="GroupName.Required" xml:space="preserve">
+    <value>A group name is required</value>
+  </data>
+  
+  <data name="Edit.Button" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="MasterSite.Header" xml:space="preserve">
+    <value>Master Site</value>
+  </data>
+   <data name="MasterSite.Header" xml:space="preserve">
+    <value>Master Site</value>
+  </data>
+   <data name="MasterSite.Label" xml:space="preserve">
+    <value>Master Site:</value>
+  </data>
+   <data name="MasterSite.Description" xml:space="preserve">
+    <value>Master Site</value>
+  </data>
+
+  <data name="ChooseASite.Label" xml:space="preserve">
+    <value>Choose a site</value>
+  </data>
+  <data name="NewSiteGroup.Button" xml:space="preserve">
+    <value>New Site Group</value>
+  </data>
+  <data name="SiteGroup.Label" xml:space="preserve">
+    <value>Site Group:</value>
+  </data>
+    <data name="Sites.Label" xml:space="preserve">
+    <value>Sites:</value>
+  </data>
+  <data name="Delete.Button" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+    <data name="DeleteGroup.Confirm" xml:space="preserve">
+    <value>Are you sure you want to delete this site group?</value>
+  </data>
 </root>

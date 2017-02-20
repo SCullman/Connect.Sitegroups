@@ -42,31 +42,25 @@ export default class SiteGroupsTable extends React.Component {
   renderList() {
     const existingGroupRows = (this.props.groups || []).map((group) => {
       return <SiteGroupRow
-        key={group.PortalGroupId.toString()}
         group={group}
-        isOpened={(this.props.currentGroup && this.props.currentGroup.PortalGroupId ===group.PortalGroupId||false)}
-        unassignedSites={(this.props.unassignedSites||[]).filter((site) => site.PortalId !== group.MasterPortal.PortalId)}
-        renderIndex={this.state.renderIndex}
+        isOpened={(this.props.currentGroup && this.props.currentGroup.PortalGroupId === group.PortalGroupId || false)}
+        unassignedSites={(this.props.unassignedSites || []).filter((site) => site.PortalId !== group.MasterPortal.PortalId)}
         onEditGroup={(g) => this.props.onEditGroup(g)}
         onSaveGroup={(g) => this.props.onSaveGroup(g)}
-        onCancelEditing={() => this.props.onCancelEditing()} 
+        onCancelEditing={() => this.props.onCancelEditing()}
         onDeleteGroup={(g) => this.props.onDeleteGroup(g)}>
       </SiteGroupRow>;
     });
     const rows = [this.props.currentGroup && this.props.currentGroup.PortalGroupId === -1 &&
       <SiteGroupRow
-        key={this.props.currentGroup.PortalGroupId.toString()}
         isOpened={true}
         group={this.props.currentGroup}
-        unassignedSites={(this.props.unassignedSites||[]).filter((site) => site.PortalId !== this.props.currentGroup.MasterPortal.PortalId)} 
-        renderIndex={this.state.renderIndex}
+        unassignedSites={(this.props.unassignedSites || []).filter((site) => site.PortalId !== this.props.currentGroup.MasterPortal.PortalId)}
         onEditGroup={(g) => this.props.onEditGroup(g)}
         onSaveGroup={(g) => this.props.onSaveGroup(g)}
-        onCancelEditing={() => this.props.onCancelEditing()} 
+        onCancelEditing={() => this.props.onCancelEditing()}
         onDeleteGroup={(g) => this.props.onDeleteGroup(g)}>
-      </SiteGroupRow>
-    ]
-      .concat(existingGroupRows);
+      </SiteGroupRow>].concat(existingGroupRows);
     if (rows.length > 0) {
       return rows;
     } else {
