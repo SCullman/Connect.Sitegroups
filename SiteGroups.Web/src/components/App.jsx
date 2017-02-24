@@ -43,7 +43,7 @@ export default class SiteGroupApp extends React.Component {
     });
   }
 
-  saveGroup(r) {
+  save(r) {
     const group = r.PortalGroup;
     const unassignedSites = r.UnassignedSites;
     const isNewGroup = group.PortalGroupId === -1;
@@ -100,7 +100,7 @@ export default class SiteGroupApp extends React.Component {
           onEditGroup={(group) => this.setState({currentGroup:group})}
           onCancelEditing={()=>this.setState({currentGroup:null})}
           onDeleteGroup={(group) => this.deleteGroup(group)} 
-          onSaveGroup={(group) => this.saveGroup(group)}/>
+          onSave={(result) => this.save(result)}/>
       </GridCell>
     );
   }

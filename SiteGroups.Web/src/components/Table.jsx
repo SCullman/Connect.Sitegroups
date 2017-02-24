@@ -46,7 +46,7 @@ export default class SiteGroupsTable extends React.Component {
         isOpened={(this.props.currentGroup && this.props.currentGroup.PortalGroupId === group.PortalGroupId || false)}
         unassignedSites={(this.props.unassignedSites || []).filter((site) => site.PortalId !== group.MasterPortal.PortalId)}
         onEditGroup={(g) => this.props.onEditGroup(g)}
-        onSaveGroup={(g) => this.props.onSaveGroup(g)}
+        onSave={(g) => this.props.onSave(g)}
         onCancelEditing={() => this.props.onCancelEditing()}
         onDeleteGroup={(g) => this.props.onDeleteGroup(g)}>
       </SiteGroupRow>;
@@ -57,7 +57,7 @@ export default class SiteGroupsTable extends React.Component {
         group={this.props.currentGroup}
         unassignedSites={(this.props.unassignedSites || []).filter((site) => site.PortalId !== this.props.currentGroup.MasterPortal.PortalId)}
         onEditGroup={(g) => this.props.onEditGroup(g)}
-        onSaveGroup={(g) => this.props.onSaveGroup(g)}
+        onSave={(g) => this.props.onSave(g)}
         onCancelEditing={() => this.props.onCancelEditing()}
         onDeleteGroup={(g) => this.props.onDeleteGroup(g)}>
       </SiteGroupRow>].concat(existingGroupRows);
@@ -88,7 +88,7 @@ SiteGroupsTable.propTypes = {
   onEditGroup: React.PropTypes.func,
   onDeleteGroup: React.PropTypes.func,
   onCancelEditing: React.PropTypes.func,
-  onSaveGroup: React.PropTypes.func,
+  onSave: React.PropTypes.func,
 };
 
 /*

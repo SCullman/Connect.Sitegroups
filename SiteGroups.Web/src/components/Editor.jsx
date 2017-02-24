@@ -11,141 +11,7 @@ import "./Editor.less";
 export default class SiteGroupEditor extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      PortalGroupName: props.group.PortalGroupName || "",
-      AuthenticationDomain: props.group.AuthenticationDomain,
-      Portals: JSON.parse(JSON.stringify(props.group.Portals)),
-      UnassignedSites: JSON.parse(JSON.stringify(props.unassignedSites)),
-      errors: {
-        groupName: false,
-        authenticationDomain: false,
-      },
-    };
-    this.submitted = false;
-  }
-
-  onClickOnPortal(index, type) {
-    if (type === "assignedPortals") {
-      let p = JSON.parse(JSON.stringify(this.state.Portals));
-      p[index].selected = !p[index].selected;
-      this.setState({ Portals: p });
-    } else {
-      let p = JSON.parse(JSON.stringify(this.state.UnassignedSites));
-      p[index].selected = !p[index].selected;
-      this.setState({ UnassignedSites: p });
-    }
-  }
-
-  moveItemsLeft() {
-    let assignedPortals = JSON.parse(JSON.stringify(this.state.Portals));
-    let unassignedPortals = JSON.parse(JSON.stringify(this.state.UnassignedSites));
-    let itemsToStay = [], itemsToMove = [];
-    let selectedCount = 0;
-    assignedPortals.forEach((portal) => {
-      let {selected} = portal;
-      delete portal.selected;
-      if (selected) {
-        selectedCount++;
-        itemsToMove.push(portal);
-      } else {
-        itemsToStay.push(portal);
-      }
-    });
-    if (selectedCount > 0) {
-      this.setState({
-        UnassignedSites: unassignedPortals.concat(itemsToMove),
-        Portals: itemsToStay
-      });
-    }
-  }
-  moveItemsRight() {
-    let assignedPortals = JSON.parse(JSON.stringify(this.state.Portals));
-    let unassignedPortals = JSON.parse(JSON.stringify(this.state.UnassignedSites));
-    let itemsToStay = [], itemsToMove = [];
-    let selectedCount = 0;
-    unassignedPortals.forEach((portal) => {
-      let {selected} = portal;
-      delete portal.selected;
-      if (selected) {
-        selectedCount++;
-        itemsToMove.push(portal);
-      } else {
-        itemsToStay.push(portal);
-      }
-    });
-    if (selectedCount > 0) {
-      this.setState({
-        UnassignedSites: itemsToStay,
-        Portals: assignedPortals.concat(itemsToMove)
-      });
-    }
-  }
-  moveAll(direction) {
-    let assignedPortals = JSON.parse(JSON.stringify(this.state.Portals));
-    let unassignedPortals = JSON.parse(JSON.stringify(this.state.UnassignedSites));
-    switch (direction) {
-      case "right":
-        this.setState({
-          UnassignedSites: [],
-          Portals: assignedPortals.concat(unassignedPortals)
-        });
-
-        break;
-      default:
-        this.setState({
-          UnassignedSites: unassignedPortals.concat(assignedPortals),
-          Portals: []
-        });
-        break;
-    }
-  }
-  sortPortals(a, b) {
-    return a.PortalName < b.PortalName ? -1 : 1;
-  }
-
-  isNew() {
-    return this.props.group.PortalGroupId === -1;
-  }
-
-  save() {
-    this.submitted = true;
-    if (this.isValid())
-      this.props.onSave(this.result());
-  }
-
-  isValid() {
-    let valid = true;
-    if (this.submitted) {
-      let {PortalGroupName} = this.state;
-      let {AuthenticationDomain} = this.state;
-      let {errors} = this.state;
-      errors.groupName = false;
-      errors.authenticationDomain = false;
-      if (PortalGroupName === "") {
-        errors.groupName = true;
-        valid = false;
-      }
-      if (AuthenticationDomain === "") {
-        errors.authenticationDomain = true;
-        valid = false;
-      }
-      this.setState({ errors });
-    }
-    return valid;
-  }
-
-  result() {
-    return {
-      PortalGroup: {
-        PortalGroupId: this.props.group.PortalGroupId,
-        AuthenticationDomain: this.state.AuthenticationDomain,
-        PortalGroupName: this.state.PortalGroupName,
-        MasterPortal: this.props.group.MasterPortal,
-        Portals: this.state.Portals,
-      },
-      UnassignedSites: this.state.UnassignedSites,
-    };
-  }
+  }  
 
   render() {
     return <div className="sitegroup-details-editor">
@@ -154,13 +20,11 @@ export default class SiteGroupEditor extends React.Component {
           <div className="editor-container">
             <div className="editor-row divider">
               <SingleLineInputWithError
-                value={this.state.PortalGroupName}
+                value={this.props.portalGroupName}
                 enabled={true}
-                onChange={(e) => {
-                  this.setState({ PortalGroupName: e.target.value });
-                  this.isValid();}}
+                onChange={(e) => this.props.onGroupNameChanged(e.target.value)}
                 maxLength={50}
-                error={this.state.errors.groupName}
+                error={this.props.errors.groupName}
                 label={Resx.get("GroupName.Label")}
                 tooltipMessage={Resx.get("GroupName.Help")}
                 errorMessage={Resx.get("GroupName.Required")}
@@ -181,13 +45,11 @@ export default class SiteGroupEditor extends React.Component {
             </div>
             <div className="editor-row divider">
               <SingleLineInputWithError
-                value={this.state.AuthenticationDomain}
+                value={this.props.authenticationDomain}
                 enabled={true}
-                onChange={(e) => {
-                  this.setState({ AuthenticationDomain: e.target.value });
-                  this.isValid();}}
+                onChange={(e) => this.props.onAuthenticationDomainChanged( e.target.value) } 
                 maxLength={50}
-                error={this.state.errors.authenticationDomain}
+                error={this.props.errors.authenticationDomain}
                 label={Resx.get("AuthenticationDomain.Label")}
                 tooltipMessage={Resx.get("AuthenticationDomain.Help")}
                 errorMessage={Resx.get("AuthenticationDomain.Required")}
@@ -199,30 +61,41 @@ export default class SiteGroupEditor extends React.Component {
         </Grid>
         <div className="selector-container">
           <AssignedSelector
-            assignedPortals={this.state.Portals}
-            unassignedPortals={this.state.UnassignedSites}
-            onClickOnPortal={(i, t) => this.onClickOnPortal(i, t)}
-            moveItemsLeft={() => this.moveItemsLeft()}
-            moveItemsRight={() => this.moveItemsRight()}
-            moveAll={(direction) => this.moveAll(direction)}
+            assignedPortals={this.props.portals||[]}
+            unassignedPortals={this.props.unassignedSites||[]}
+            onClickOnPortal={(i, t) => this.props.onClickOnPortal(i, t)}
+            moveItemsLeft={() => this.props.onMoveItemsLeft()}
+            moveItemsRight={() => this.props.onMoveItemsRight()}
+            moveAll={(direction) => this.props.onMoveAll(direction)}
           />
         </div>
       </GridCell>
 
 
       <div className="buttons-box">
-        {!this.isNew() && <Button type="secondary" onClick={() => this.props.onDeleteGroup(this.props.group)}>{Resx.get("Delete.Button")}</Button>}
-        <Button type="secondary" onClick={() => this.props.onCancelEditing()}>{Resx.get("Cancel.Button")}</Button>
-        <Button type="primary" onClick={() => this.save()}>{Resx.get("Save.Button")}</Button>
+        {!this.props.isNew && <Button type="secondary" onClick={() => this.props.onDeleteGroup(this.props.group)}>{Resx.get("Delete.Button")}</Button>}
+        <Button type="secondary" onClick={() => this.props.onCancel()}>{Resx.get("Cancel.Button")}</Button>
+        <Button type="primary" onClick={() => this.props.onSave()}>{Resx.get("Save.Button")}</Button>
       </div>
     </div>;
   }
 }
 
 SiteGroupEditor.propTypes = {
+  portalGroupName: React.PropTypes.string,
+  errors: React.PropTypes.object,
+  authenticationDomain: React.PropTypes.string,
+  portals: React.PropTypes.array,
   group: React.PropTypes.object,
   unassignedSites: React.PropTypes.array,
-  onSave: React.PropTypes.func,
-  onCancelEditing: React.PropTypes.func,
+  onCancel: React.PropTypes.func,
   onDeleteGroup: React.PropTypes.func,
+  onSave: React.PropTypes.func,
+  onGroupNameChanged: React.PropTypes.func,
+  onAuthenticationDomainChanged: React.PropTypes.func,
+  onClickOnPortal: React.PropTypes.func,
+  onMoveItemsLeft: React.PropTypes.func,
+  onMoveItemsRight: React.PropTypes.func,
+  onMoveAll: React.PropTypes.func,
+  isNew: React.PropTypes.bool,
 }; 
