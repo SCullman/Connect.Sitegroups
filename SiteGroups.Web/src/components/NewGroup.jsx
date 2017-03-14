@@ -37,7 +37,7 @@ export default class NewSiteGroup extends React.Component {
         <Button
           type="primary"
           size="large"
-          disabled={!this.state.siteId}
+          disabled={!this.state.siteId || this.props.disabled}
           onClick={() => this.onNew()}>{Resx.get("NewSiteGroup.Button")}</Button>
       </div>
     );
