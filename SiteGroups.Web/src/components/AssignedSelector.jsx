@@ -8,6 +8,7 @@ class AssignedSelector extends React.Component {
   constructor(props) {
     super(props);
   }
+
   getPortalList(list, type) {
     return list.map((portal, index) => {
       return <li className={portal.selected ? "selected" : ""}
@@ -16,6 +17,7 @@ class AssignedSelector extends React.Component {
       </li>;
     });
   }
+
   /* eslint-disable react/no-danger */
   render() {
     const assignedPortals = this.getPortalList(this.props.assignedPortals, "assignedPortals");

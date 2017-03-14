@@ -16,7 +16,6 @@ const tableFields = [
     width: 10
   }
 ];
-
 export default class SiteGroupsTable extends React.Component {
   constructor(props) {
     super(props);
@@ -24,7 +23,6 @@ export default class SiteGroupsTable extends React.Component {
       renderIndex: -1,
     };
   }
-
   renderHeader() {
     let tableHeaders = tableFields.map((field) => {
       return <GridCell
@@ -38,7 +36,6 @@ export default class SiteGroupsTable extends React.Component {
     });
     return <div id="sitegroups-header-row" className="sitegroups-header-row">{tableHeaders}</div>;
   }
-
   renderList() {
     const existingGroupRows = (this.props.groups || []).map((group) => {
       return <SiteGroupRow
@@ -51,7 +48,7 @@ export default class SiteGroupsTable extends React.Component {
         onDeleteGroup={(g) => this.props.onDeleteGroup(g)}>
       </SiteGroupRow>;
     });
-    const rows = [this.props.currentGroup && this.props.currentGroup.PortalGroupId === -1 &&
+    const newRow = this.props.currentGroup && this.props.currentGroup.PortalGroupId === -1 &&
       <SiteGroupRow
         isOpened={true}
         group={this.props.currentGroup}
@@ -60,15 +57,14 @@ export default class SiteGroupsTable extends React.Component {
         onSave={(g) => this.props.onSave(g)}
         onCancelEditing={() => this.props.onCancelEditing()}
         onDeleteGroup={(g) => this.props.onDeleteGroup(g)}>
-      </SiteGroupRow>].concat(existingGroupRows);
+      </SiteGroupRow>;
+    const rows = newRow ? [newRow].concat(existingGroupRows) : existingGroupRows;
     if (rows.length > 0) {
       return rows;
     } else {
       return <div className="no-sitegroups-row">{Resx.get("NoData")}</div>;
     }
-
   }
-
   render() {
     return (
       <div className="sitegroups-list-container">
@@ -80,7 +76,6 @@ export default class SiteGroupsTable extends React.Component {
     );
   }
 }
-
 SiteGroupsTable.propTypes = {
   groups: React.PropTypes.array,
   unassignedSites: React.PropTypes.array,
@@ -90,11 +85,3 @@ SiteGroupsTable.propTypes = {
   onCancelEditing: React.PropTypes.func,
   onSave: React.PropTypes.func,
 };
-
-/*
-  <SiteGroupEditor
-          group={this.group}
-          sites={this.state.unassignedSites.filter((site) => site.PortalId !== this.props.currentGroup.MasterPortal.PortalId)}
-          onCancelEdit={() => this.setState({ currentGroup: null })}
-          onSave={(r) => this.saveGroup(r)} />
- */

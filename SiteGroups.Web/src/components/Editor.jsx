@@ -11,8 +11,8 @@ import "./Editor.less";
 export default class SiteGroupEditor extends React.Component {
   constructor(props) {
     super(props);
-  }  
-
+  }
+  
   render() {
     return <div className="sitegroup-details-editor">
       <GridCell>
@@ -47,7 +47,7 @@ export default class SiteGroupEditor extends React.Component {
               <SingleLineInputWithError
                 value={this.props.authenticationDomain}
                 enabled={true}
-                onChange={(e) => this.props.onAuthenticationDomainChanged( e.target.value) } 
+                onChange={(e) => this.props.onAuthenticationDomainChanged(e.target.value)}
                 maxLength={50}
                 error={this.props.errors.authenticationDomain}
                 label={Resx.get("AuthenticationDomain.Label")}
@@ -61,8 +61,8 @@ export default class SiteGroupEditor extends React.Component {
         </Grid>
         <div className="selector-container">
           <AssignedSelector
-            assignedPortals={this.props.portals||[]}
-            unassignedPortals={this.props.unassignedSites||[]}
+            assignedPortals={this.props.portals}
+            unassignedPortals={this.props.unassignedSites}
             onClickOnPortal={(i, t) => this.props.onClickOnPortal(i, t)}
             moveItemsLeft={() => this.props.onMoveItemsLeft()}
             moveItemsRight={() => this.props.onMoveItemsRight()}
@@ -70,8 +70,6 @@ export default class SiteGroupEditor extends React.Component {
           />
         </div>
       </GridCell>
-
-
       <div className="buttons-box">
         {!this.props.isNew && <Button type="secondary" onClick={() => this.props.onDeleteGroup(this.props.group)}>{Resx.get("Delete.Button")}</Button>}
         <Button type="secondary" onClick={() => this.props.onCancel()}>{Resx.get("Cancel.Button")}</Button>

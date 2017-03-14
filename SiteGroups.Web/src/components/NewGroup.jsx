@@ -9,10 +9,19 @@ export default class NewSiteGroup extends React.Component {
       siteId: null
     };
   }
+
+  onNew() {
+    this.props.onNewGroup(this.state.siteId);
+    this.setState({
+      siteId: null
+    });
+  }
+
   render() {
+    if (this.props.disabled && this.state.sitedId) this.setState({ siteId: null });
     return (
       <div style={{ float: "right" }}>
-        <select 
+        <select
           name="sites"
           style={{
             padding: "12px",
@@ -29,7 +38,7 @@ export default class NewSiteGroup extends React.Component {
           type="primary"
           size="large"
           disabled={!this.state.siteId}
-          onClick={() => this.props.onNewGroup(this.state.siteId)}>{Resx.get("NewSiteGroup.Button")}</Button>
+          onClick={() => this.onNew()}>{Resx.get("NewSiteGroup.Button")}</Button>
       </div>
     );
   }
@@ -38,4 +47,5 @@ export default class NewSiteGroup extends React.Component {
 NewSiteGroup.propTypes = {
   unassignedSites: React.PropTypes.array,
   onNewGroup: React.PropTypes.func,
+  disabled: React.PropTypes.bool,
 };

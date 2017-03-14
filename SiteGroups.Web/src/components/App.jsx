@@ -22,12 +22,13 @@ export default class SiteGroupApp extends React.Component {
   }
 
   loadState() {
+    const self = this;
     service
       .getSiteGroups()
-      .then(groups => this.setState({ groups: groups }));
+      .then(groups => self.setState({ groups: groups }));
     service
       .getUnassignedSites()
-      .then(sites => this.setState({ unassignedSites: sites }));
+      .then(sites => self.setState({ unassignedSites: sites }));
   }
 
   editNewGroup(id) {
@@ -44,41 +45,42 @@ export default class SiteGroupApp extends React.Component {
   }
 
   save(r) {
+    const self = this;
     const group = r.PortalGroup;
     const unassignedSites = r.UnassignedSites;
     const isNewGroup = group.PortalGroupId === -1;
-
     service
       .save(group)
       .then(id => {
         if (isNewGroup) group.PortalGroupId = id;
         const groups = (isNewGroup
-          ? this.state.groups
-          : this.state.groups.filter((g) => g.PortalGroupId !== group.PortalGroupId))
+          ? self.state.groups
+          : self.state.groups.filter((g) => g.PortalGroupId !== group.PortalGroupId))
           .concat([group])
           .sort((a, b) => a.PortalGroupName < b.PortalGroupName ? -1 : 1);
-
-        this.setState({
-          unassignedSites:unassignedSites,
+        self.setState({
+          unassignedSites: unassignedSites,
           currentGroup: null,
-          groups
+          groups: groups,
         });
       });
   }
 
   deleteGroup(group) {
+    const self = this;
     utils.confirm(
       Resx.get("DeleteGroup.Confirm"), Resx.get("Delete"), Resx.get("Cancel"),
       () => {
         service
           .delete(group.PortalGroupId)
           .then(() => {
-            this.setState({
-              unassignedSites: this.state.unassignedSites
+            self.setState({
+              unassignedSites: self.state.unassignedSites
                 .concat(group.Portals)
                 .concat([group.MasterPortal])
                 .sort((a, b) => a.PortalName < b.PortalName ? -1 : 1),
-              groups: this.state.groups.filter((g) => g.PortalGroupId !== group.PortalGroupId),
+              groups: self.state.groups.filter((g) => g.PortalGroupId !== group.PortalGroupId),
+              currentGroup: null,
             });
           });
       });
@@ -89,7 +91,8 @@ export default class SiteGroupApp extends React.Component {
       <GridCell>
         <PersonaBarPageHeader title={Resx.get("nav_SiteGroups")}>
           <NewSiteGroup
-            unassignedSites={this.state.unassignedSites}
+            unassignedSites={this.state.currentGroup ? [] : this.state.unassignedSites}
+            disabled={this.state.currentGroup}
             onNewGroup={(siteId) => this.editNewGroup(Number(siteId))}
           />
         </PersonaBarPageHeader>
@@ -97,10 +100,10 @@ export default class SiteGroupApp extends React.Component {
           groups={this.state.groups}
           unassignedSites={this.state.unassignedSites}
           currentGroup={this.state.currentGroup}
-          onEditGroup={(group) => this.setState({currentGroup:group})}
-          onCancelEditing={()=>this.setState({currentGroup:null})}
-          onDeleteGroup={(group) => this.deleteGroup(group)} 
-          onSave={(result) => this.save(result)}/>
+          onEditGroup={(group) => this.setState({ currentGroup: group })}
+          onCancelEditing={() => this.setState({ currentGroup: null })}
+          onDeleteGroup={(group) => this.deleteGroup(group)}
+          onSave={(result) => this.save(result)} />
       </GridCell>
     );
   }

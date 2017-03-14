@@ -12,8 +12,8 @@ export default class SiteGroupRow extends React.Component {
     this.state = {
       PortalGroupName: props.group.PortalGroupName || "",
       AuthenticationDomain: props.group.AuthenticationDomain,
-      Portals: JSON.parse(JSON.stringify(props.group.Portals))||[],
-      UnassignedSites: JSON.parse(JSON.stringify(props.unassignedSites||[]))
+      Portals: JSON.parse(JSON.stringify(props.group.Portals)) || [],
+      UnassignedSites: JSON.parse(JSON.stringify(props.unassignedSites || []))
         .filter((site) => site.PortalId !== this.props.group.MasterPortal.PortalId),
       errors: {
         groupName: false,
@@ -21,6 +21,10 @@ export default class SiteGroupRow extends React.Component {
       },
     };
     this.submitted = false;
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.resetState(newProps);
   }
 
   clickOnPortal(index, type) {
@@ -116,22 +120,22 @@ export default class SiteGroupRow extends React.Component {
       this.props.onSave(this.result());
   }
 
-  resetState() {
+  cancel() {
+    this.resetState(this.props);
+    this.props.onCancelEditing();
+  }
+
+  resetState(props) {
     this.setState({
-      PortalGroupName: this.props.group.PortalGroupName || "",
-      AuthenticationDomain: this.props.group.AuthenticationDomain,
-      Portals: JSON.parse(JSON.stringify(this.props.group.Portals)),
-      UnassignedSites: JSON.parse(JSON.stringify(this.props.unassignedSites)),
+      PortalGroupName: props.group.PortalGroupName || "",
+      AuthenticationDomain: props.group.AuthenticationDomain,
+      Portals: JSON.parse(JSON.stringify(props.group.Portals)),
+      UnassignedSites: JSON.parse(JSON.stringify(props.unassignedSites)),
       errors: {
         groupName: false,
         authenticationDomain: false,
       },
     });
-  }
-
-  cancel() {
-    this.resetState();
-    this.props.onCancelEditing();
   }
 
   isValid() {
@@ -169,7 +173,6 @@ export default class SiteGroupRow extends React.Component {
   }
 
   render() {
-
     return <div className={"row " + this.props.isOpened} >
       <div className="rowHeader">
         <GridCell columnSize={45} >
@@ -188,6 +191,12 @@ export default class SiteGroupRow extends React.Component {
       <Collapse isOpened={this.props.isOpened}>
         <SiteGroupEditor
           group={this.props.group}
+          portalGroupName={this.state.PortalGroupName}
+          authenticationDomain={this.state.AuthenticationDomain}
+          errors={this.state.errors}
+          unassignedSites={this.state.UnassignedSites}
+          portals={this.state.Portals}
+          isNew={this.isNew()}
           onCancel={() => this.cancel()}
           onDeleteGroup={(group) => this.props.onDeleteGroup((group))}
           onSave={() => this.save()}
@@ -195,19 +204,15 @@ export default class SiteGroupRow extends React.Component {
             this.setState({ AuthenticationDomain: value });
             this.isValid();
           }}
-          portalGroupName={this.state.PortalGroupName}
-          authenticationDomain={this.state.AuthenticationDomain}
-          errors={this.state.errors}
-          unassignedSites={this.state.UnassignedSites}
           onGroupNameChanged={(value) => {
             this.setState({ PortalGroupName: value });
             this.isValid();
           }}
-          onClickOnPortal={this.clickOnPortal}
-          onMoveItemsLeft={this.moveItemsLeft}
-          onMoveItemsRight={this.moveItemsRight}
-          onMoveAll={this.moveAll}
-          isNew={this.isNew()}
+          onClickOnPortal={(i, t) => this.clickOnPortal(i, t)}
+          onMoveItemsLeft={() => this.moveItemsLeft()}
+          onMoveItemsRight={() => this.moveItemsRight()}
+          onMoveAll={(d) => this.moveAll(d)}
+
         />
       </Collapse>
     </div>;
