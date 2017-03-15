@@ -6,18 +6,28 @@ import Button from "dnn-button";
 import AssignedSelector from "./AssignedSelector";
 //import Label from "dnn-label";
 import SingleLineInputWithError from "dnn-single-line-input-with-error";
+import MultiLineInputWithError from "dnn-multi-line-input-with-error";
 import "./Editor.less";
 
 export default class SiteGroupEditor extends React.Component {
   constructor(props) {
     super(props);
   }
-  
+
   render() {
     return <div className="sitegroup-details-editor">
       <GridCell>
         <Grid numberOfColums={2}>
           <div className="editor-container">
+            <div className="editor-row divider">
+              <SingleLineInputWithError
+                value={this.props.group.MasterPortal.PortalName}
+                enabled={false}
+                label={Resx.get("MasterSite.Label")}
+                tooltipMessage={Resx.get("MasterSite.Help")}
+                inputStyle={{ marginBottom: 15 }}
+                tabIndex={1} />
+            </div>
             <div className="editor-row divider">
               <SingleLineInputWithError
                 value={this.props.portalGroupName}
@@ -30,32 +40,33 @@ export default class SiteGroupEditor extends React.Component {
                 errorMessage={Resx.get("GroupName.Required")}
                 autoComplete="off"
                 inputStyle={{ marginBottom: 15 }}
-                tabIndex={1} />
+                tabIndex={2} />
             </div>
           </div>
           <div className="editor-container  right-column">
-            <div className="editor-row divider">
-              <SingleLineInputWithError
-                value={this.props.group.MasterPortal.PortalName}
-                enabled={false}
-                label={Resx.get("MasterSite.Label")}
-                tooltipMessage={Resx.get("MasterSite.Help")}
-                inputStyle={{ marginBottom: 15 }}
-                tabIndex={2} />
-            </div>
             <div className="editor-row divider">
               <SingleLineInputWithError
                 value={this.props.authenticationDomain}
                 enabled={true}
                 onChange={(e) => this.props.onAuthenticationDomainChanged(e.target.value)}
                 maxLength={50}
-                error={this.props.errors.authenticationDomain}
                 label={Resx.get("AuthenticationDomain.Label")}
                 tooltipMessage={Resx.get("AuthenticationDomain.Help")}
-                errorMessage={Resx.get("AuthenticationDomain.Required")}
                 autoComplete="off"
                 inputStyle={{ marginBottom: 15 }}
                 tabIndex={3} />
+            </div>
+            <div className="editor-row divider">
+              <MultiLineInputWithError
+                value={this.props.description}
+                enabled={true}
+                onChange={(e) => this.props.onDescriptionChanged(e.target.value)}
+                maxLength={50}
+                label={Resx.get("Description.Label")}
+                tooltipMessage={Resx.get("Description.Help")}
+                autoComplete="off"
+                inputStyle={{ marginBottom: 15 }}
+                tabIndex={4} />
             </div>
           </div>
         </Grid>
@@ -83,6 +94,7 @@ SiteGroupEditor.propTypes = {
   portalGroupName: React.PropTypes.string,
   errors: React.PropTypes.object,
   authenticationDomain: React.PropTypes.string,
+  description: React.PropTypes.string,
   portals: React.PropTypes.array,
   group: React.PropTypes.object,
   unassignedSites: React.PropTypes.array,
@@ -90,6 +102,7 @@ SiteGroupEditor.propTypes = {
   onDeleteGroup: React.PropTypes.func,
   onSave: React.PropTypes.func,
   onGroupNameChanged: React.PropTypes.func,
+  onDescriptionChanged: React.PropTypes.func,
   onAuthenticationDomainChanged: React.PropTypes.func,
   onClickOnPortal: React.PropTypes.func,
   onMoveItemsLeft: React.PropTypes.func,

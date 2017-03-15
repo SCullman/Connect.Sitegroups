@@ -22,6 +22,7 @@ namespace DnnConnect.PersonaBar.SiteGroups.Components
             {
                 AuthenticationDomain = g.AuthenticationDomain,
                 PortalGroupId = g.PortalGroupId,
+                Description = g.PortalGroupDescription,
                 MasterPortal = new PortalInfo
                 {
                     PortalName = g.MasterPortalName,
@@ -76,6 +77,7 @@ namespace DnnConnect.PersonaBar.SiteGroups.Components
             var @group = PortalGroupController.GetPortalGroups().Single(g => g.PortalGroupId == portalGroup.PortalGroupId);
             @group.PortalGroupName = portalGroup.PortalGroupName;
             @group.AuthenticationDomain = portalGroup.AuthenticationDomain;
+            @group.PortalGroupDescription = portalGroup.Description;
             PortalGroupController.UpdatePortalGroup(@group);
             var currentPortals = PortalsOfGroup(portalGroup.PortalGroupId, portalGroup.MasterPortal.PortalId).ToList();
             foreach (var portal in currentPortals)

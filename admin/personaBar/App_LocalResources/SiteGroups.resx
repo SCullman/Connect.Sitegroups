@@ -132,11 +132,8 @@
   <data name="AuthenticationDomain.Label" xml:space="preserve">
     <value>Authentication Domain:</value>
   </data>
-  <data name="AuthenticationDomain.Description" xml:space="preserve">
-    <value>All sites with the same auth.domain share the auth cookie.</value>
-  </data>
-  <data name="AuthenticationDomain.Required" xml:space="preserve">
-    <value>An authentication domain is required</value>
+  <data name="AuthenticationDomain.Help" xml:space="preserve">
+    <value>Typically not required.</value>
   </data>
   <data name="EditModule_Unassigned.Label" xml:space="preserve">
     <value>Unassigned</value>
@@ -150,11 +147,17 @@
   <data name="GroupName.Label" xml:space="preserve">
     <value>Group Name:</value>
   </data>
-  <data name="GroupName.Description" xml:space="preserve">
+  <data name="GroupName.Help" xml:space="preserve">
     <value>The name helps to identifier the group.</value>
   </data>
   <data name="GroupName.Required" xml:space="preserve">
     <value>A group name is required</value>
+  </data>
+   <data name="Description.Label" xml:space="preserve">
+    <value>Description:</value>
+  </data>
+  <data name="Description.Help" xml:space="preserve">
+    <value>Describe your site group</value>
   </data>
   <data name="Edit.Button" xml:space="preserve">
     <value>Edit</value>
@@ -165,7 +168,7 @@
   <data name="MasterSite.Label" xml:space="preserve">
     <value>Master Site:</value>
   </data>
-  <data name="MasterSite.Description" xml:space="preserve">
+  <data name="MasterSite.Help" xml:space="preserve">
     <value>Master Site</value>
   </data>
   <data name="ChooseASite.Label" xml:space="preserve">

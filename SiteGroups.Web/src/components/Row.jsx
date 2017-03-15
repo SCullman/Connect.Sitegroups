@@ -12,12 +12,12 @@ export default class SiteGroupRow extends React.Component {
     this.state = {
       PortalGroupName: props.group.PortalGroupName || "",
       AuthenticationDomain: props.group.AuthenticationDomain,
+      Description: props.group.Description,
       Portals: JSON.parse(JSON.stringify(props.group.Portals)) || [],
       UnassignedSites: JSON.parse(JSON.stringify(props.unassignedSites || []))
         .filter((site) => site.PortalId !== this.props.group.MasterPortal.PortalId),
       errors: {
         groupName: false,
-        authenticationDomain: false,
       },
     };
     this.submitted = false;
@@ -129,6 +129,7 @@ export default class SiteGroupRow extends React.Component {
     this.setState({
       PortalGroupName: props.group.PortalGroupName || "",
       AuthenticationDomain: props.group.AuthenticationDomain,
+      Description: props.group.Description,
       Portals: JSON.parse(JSON.stringify(props.group.Portals)),
       UnassignedSites: JSON.parse(JSON.stringify(props.unassignedSites)),
       errors: {
@@ -142,16 +143,10 @@ export default class SiteGroupRow extends React.Component {
     let valid = true;
     if (this.submitted) {
       let {PortalGroupName} = this.state;
-      let {AuthenticationDomain} = this.state;
       let {errors} = this.state;
       errors.groupName = false;
-      errors.authenticationDomain = false;
       if (PortalGroupName === "") {
         errors.groupName = true;
-        valid = false;
-      }
-      if (AuthenticationDomain === "") {
-        errors.authenticationDomain = true;
         valid = false;
       }
       this.setState({ errors });
@@ -167,6 +162,7 @@ export default class SiteGroupRow extends React.Component {
         PortalGroupName: this.state.PortalGroupName,
         MasterPortal: this.props.group.MasterPortal,
         Portals: this.state.Portals,
+        Description: this.state.Description,
       },
       UnassignedSites: this.state.UnassignedSites,
     };
@@ -193,6 +189,7 @@ export default class SiteGroupRow extends React.Component {
           group={this.props.group}
           portalGroupName={this.state.PortalGroupName}
           authenticationDomain={this.state.AuthenticationDomain}
+          description={this.state.Description}
           errors={this.state.errors}
           unassignedSites={this.state.UnassignedSites}
           portals={this.state.Portals}
@@ -202,7 +199,9 @@ export default class SiteGroupRow extends React.Component {
           onSave={() => this.save()}
           onAuthenticationDomainChanged={(value) => {
             this.setState({ AuthenticationDomain: value });
-            this.isValid();
+          }}
+          onDescriptionChanged={(value) => {
+            this.setState({ Description: value });
           }}
           onGroupNameChanged={(value) => {
             this.setState({ PortalGroupName: value });
