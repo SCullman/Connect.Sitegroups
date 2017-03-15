@@ -105,7 +105,7 @@ namespace DnnConnect.PersonaBar.SiteGroups.Components
             {
                 AuthenticationDomain = portalGroup.AuthenticationDomain,
                 MasterPortalId = portalGroup.MasterPortal.PortalId,
-                PortalGroupDescription = portalGroup.PortalGroupName,
+                PortalGroupDescription = portalGroup.Description,
                 PortalGroupName = portalGroup.PortalGroupName
             };
             PortalGroupController.AddPortalGroup(@group);
