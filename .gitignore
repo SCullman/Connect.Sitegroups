@@ -5,3 +5,7 @@ bin/
 admin/personaBar/scripts/bundles/
 Website/
 packages/
+.ionide/
+.suo/
+.vs/
+db.lock
